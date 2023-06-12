@@ -14,6 +14,7 @@ type AuthContextType = {
   user: User | null | undefined;
   signUp: (email: string, password: string) => Promise<UserCredential>;
   signIn: (email: string, password: string) => Promise<UserCredential>;
+  logout(): Promise<void>;
 };
 
 export function useAuth() {
@@ -22,6 +23,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: { children: React.JSX.Element }) {
   const [currentUser, setCurrentUser] = useState<User | null>();
+  const [loading, setLoading] = useState(true)
 
   function signUp(email: string, password: string) {
     return createUserWithEmailAndPassword(
@@ -39,9 +41,14 @@ export function AuthProvider({ children }: { children: React.JSX.Element }) {
     );
   }
 
+  function logout() {
+    return auth.signOut();
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
+      setLoading(false);
     });
 
     return unsubscribe;
@@ -51,6 +58,7 @@ export function AuthProvider({ children }: { children: React.JSX.Element }) {
     user: currentUser,
     signUp,
     signIn,
+    logout
   };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }
