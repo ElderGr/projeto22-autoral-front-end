@@ -23,7 +23,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: { children: React.JSX.Element }) {
   const [currentUser, setCurrentUser] = useState<User | null>();
-  const [loading, setLoading] = useState(true)
+
 
   function signUp(email: string, password: string) {
     return createUserWithEmailAndPassword(
@@ -46,9 +46,15 @@ export function AuthProvider({ children }: { children: React.JSX.Element }) {
   }
 
   useEffect(() => {
+    console.log(currentUser);
+    
+  }, [currentUser]);
+
+
+  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      setLoading(false);
+
     });
 
     return unsubscribe;
@@ -60,5 +66,5 @@ export function AuthProvider({ children }: { children: React.JSX.Element }) {
     signIn,
     logout
   };
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
