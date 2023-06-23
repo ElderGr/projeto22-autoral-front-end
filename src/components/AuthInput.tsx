@@ -11,7 +11,7 @@ function AuthInput(AuthInputProps: AuthInputProps) {
   }
   return (
     <div className="w-full">
-            <div className="text-lg text-gray-600 pb-2 text-page-white">{name}</div>
+            <div className="lg:text-lg text-md text-gray-600 pb-2 text-page-black">{name}</div>
             <input ref={changeHandler} type={type} name={name} minLength={minLength[type]} className="appearance-none block w-full px-3 py-2 h-14 border border-none rounded-md text-md placeholder-page-black shadow-md" />
     </div>
   )
