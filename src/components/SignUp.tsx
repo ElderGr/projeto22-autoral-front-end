@@ -44,13 +44,13 @@ export default function SignUp() {
   return (
     <>
       <ToastContainer />
-      <div className="flex flex-col items-center lg:w-2/3 lg:max-w-[660px] sm:w-9/12 sm:max-w-9/12 max-sm:w-660px bg-page-green z-10 p-10 rounded-sm shadow-lg">
-        <div className="py-4 text-5xl text-page-white">Cadastre-se</div>
+      <div className="flex flex-col items-center lg:w-2/3 lg:max-w-[660px] sm:w-9/12 sm:max-w-9/12 max-sm:w-660px bg-page-white z-10 p-10 rounded-sm shadow-lg">
+        <div className="py-4 lg:text-5xl text-3xl text-page-black">Cadastre-se</div>
         <div className="flex flex-col w-full lg:max-w-[660px] ">
           <form
             action=""
             onSubmit={handleSubmit}
-            className="flex flex-col w-full gap-6"
+            className="flex flex-col w-full lg:gap-6 gap-2"
           >
             <AuthInput name="username" changeHandler={username} type="name" />
             <AuthInput name="email" changeHandler={emailRef} type="email" />
@@ -66,7 +66,7 @@ export default function SignUp() {
             />
             <button
               disabled={loading}
-              className="flex items-center justify-center py-4 bg-page-white text-page-green font-bold w-full rounded-xl"
+              className="flex items-center justify-center py-4 bg-page-black text-page-white font-bold w-full rounded-xl"
               type="submit"
             >
               Entrar
@@ -75,7 +75,7 @@ export default function SignUp() {
         </div>
         <button
           disabled={loading}
-          className="py-4 text-lg text-page-white hover:underline"
+          className="py-4 text-lg text-page-black hover:underline"
         >
           <Link href="/auth/signin">
             Já possui casdastro? Então clique aqui para acessar
