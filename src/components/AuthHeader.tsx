@@ -2,10 +2,13 @@
 import Link from "next/link";
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Avatar } from "@mui/material";
+import { Avatar, Badge, BadgeProps, Drawer, styled } from "@mui/material";
+import { AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
+import CartItem from "./CartItem";
 
 function AuthHeader() {
   const [toggled, setToggled] = React.useState(false);
+  const [cartToggled, setCartToggled] = React.useState(false);
 
   const handleNavClick = () => {
     setToggled(!toggled);
@@ -13,9 +16,21 @@ function AuthHeader() {
 
   const display = toggled ? "block" : "hidden";
 
+  const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 10,
+      top: 5,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
+
   const user = useAuth()?.user;
   console.log(user);
-  
+
+  const toggleCartDrawer = () => {
+    setCartToggled(!toggled);
+  };
 
   return (
     <header>
@@ -27,8 +42,65 @@ function AuthHeader() {
             </span>
           </Link>
           <div className="flex items-center lg:order-2">
+            <>
+              <StyledBadge
+                onClick={toggleCartDrawer}
+                badgeContent={4}
+                color="primary"
+              >
+                <AiOutlineShoppingCart
+                  size={35}
+                  color="#434343"
+                  className="mr-3"
+                />
+              </StyledBadge>
+              <Drawer
+                anchor="right"
+                open={cartToggled}
+                onClose={() => setCartToggled(false)}
+              >
+                <div id="content" className="py-1 min-w-[20rem] px-3 flex flex-col h-full">
+                  <div
+                    id="cart-header"
+                    className="flex items-center justify-center relative"
+                  >
+                    <button className="absolute left-0 self-center">
+                      <AiOutlineClose color="#838383" size={35} />
+                    </button>
+                    <div className="font-bold text-3xl">Meu Carrinho</div>
+                  </div>
+                  <div
+                    id="cart-products"
+                    className="my-8 h-[450px] overflow-hidden"
+                  >
+                    <div className="flex flex-col h-[100%] justify-start overflow-auto gap-3">
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                    </div>
+                  </div>
+                  <button className="w-9/10 h-14 rounded-md bg-green text-white text-3xl font-bold">
+                    Pagamento
+                  </button>
+                </div>
+              </Drawer>
+            </>
             {user ? (
-              <Avatar className="" alt={user.displayName || "?"} src={user.photoURL || "https://ionicframework.com/docs/img/demos/avatar.svg"}/>
+              <Avatar
+                className=""
+                alt={user.displayName || "?"}
+                src={
+                  user.photoURL ||
+                  "https://ionicframework.com/docs/img/demos/avatar.svg"
+                }
+              />
             ) : (
               <>
                 <Link
@@ -39,7 +111,7 @@ function AuthHeader() {
                 </Link>
                 <Link
                   href={"/auth/signup"}
-                  className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                  className="text-gray-800 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                 >
                   Sign Up
                 </Link>
@@ -98,7 +170,7 @@ function AuthHeader() {
               </li>
               <li>
                 <Link
-                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:p-0 dark:text-gray-400"
                   href={"/products/cateogories"}
                 >
                   categories
@@ -106,7 +178,7 @@ function AuthHeader() {
               </li>
               <li>
                 <Link
-                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:p-0 dark:text-gray-400"
                   href={"/learn"}
                 >
                   learn
@@ -114,7 +186,7 @@ function AuthHeader() {
               </li>
               <li>
                 <Link
-                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:p-0 dark:text-gray-400"
                   href={"/contact"}
                 >
                   contact
@@ -122,7 +194,7 @@ function AuthHeader() {
               </li>
               <li>
                 <Link
-                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:p-0 dark:text-gray-400"
                   href={"/about"}
                 >
                   categories
