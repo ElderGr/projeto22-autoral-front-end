@@ -39,6 +39,10 @@ export default function SignIn() {
       }
     }
   }
+
+  React.useEffect(() => {
+    user && push('/')
+  })
   return (
     <>
       <ToastContainer />

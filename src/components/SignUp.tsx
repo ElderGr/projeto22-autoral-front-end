@@ -41,6 +41,11 @@ export default function SignUp() {
       }
     }
   }
+
+  React.useEffect(() => {
+    user && push('/')
+  })
+  
   return (
     <>
       <ToastContainer />
